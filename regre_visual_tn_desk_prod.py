@@ -487,9 +487,9 @@ if __name__ == "__main__":
           # Liveblogging
           #"https://tn.com.ar/deportes/futbol/2025/11/07/franco-colapinto-corre-la-primera-practica-y-la-clasificacion-sprint-del-gp-de-brasil/": "Liveblogging",
           # Newsletter
-          # No hay ninguno a la fecha 11/11/2025
+          # No hay ninguno a la fecha 13/11/2025
           # Historia
-
+          # No hay ninguno a la fecha 13/11/2025
           # Recipe
           # No aplica a TN. 
               }
@@ -991,4 +991,5 @@ if __name__ == "__main__":
     print(f"\n==================================================================================")
     print(f"✅ Proceso de regresión visual completado.")
     print(f"📄 Reporte generado en: {html_file}")
+
     print(f"==================================================================================")
