@@ -1,9 +1,9 @@
-# Regresion-Visual-TN
-# 🔍 Regresión Visual Estructural - TN
+# Regresion Visual - Artear
+# 🔍 Regresión Visual Estructural 
 
-Este repositorio contiene el script principal para la **Auditoría de Regresión Visual Estructural** del sitio web de **TN (Todo Noticias)**.
+Este repositorio contiene el script principal para la **Regresión Visual Estructural** de los sitio web **TN (Todo Noticias)**, **El Trece**, **El Doce** y **Ciudad Magazine**.
 
-El objetivo es garantizar la **estabilidad de la geometría y el posicionamiento del DOM** (X, Y, Ancho, Alto) de los elementos críticos del sitio en cada nuevo despliegue. Es un control de calidad esencial para prevenir quiebres de diseño causados por el "efecto dominó" o por cambios no intencionados en la maquetación.
+El objetivo es garantizar la **estabilidad de la geometría y el posicionamiento del DOM** (X, Y, Ancho, Alto) de los elementos críticos de los sitio en cada nuevo despliegue. Es un control de calidad esencial para prevenir quiebres de diseño causados por el "efecto dominó" o por cambios no intencionados en la maquetación.
 
 ## 🎯 Características Principales del Motor de Pruebas
 
@@ -33,7 +33,7 @@ El script utiliza **Selenium** para la automatización y **OpenCV** para la gene
     * Muestra un resumen global y el tiempo total de ejecución.
     * Lista las fallas detalladas por cada URL testeada, incluyendo el selector CSS.
     * Presenta el contexto visual lado a lado (V1 vs V2 marcado).
-* **Archivos de Salida:** Todos los reportes y capturas se guardan en la carpeta: `Reportes HTML - TN - DESKTOP - PROD`.
+* **Archivos de Salida:** Todos los reportes y capturas se guardan en la carpeta: Ej.:`Reportes HTML - TN - DESKTOP - PROD`.
 
 ## 🛠️ Requisitos y Uso
 
