@@ -1,5 +1,5 @@
 # Regresion-Visual-TN
-# 🔍 Regresión Visual Estructural - TN Desktop
+# 🔍 Regresión Visual Estructural - TN
 
 Este repositorio contiene el script principal para la **Auditoría de Regresión Visual Estructural** del sitio web de **TN (Todo Noticias)**.
 
