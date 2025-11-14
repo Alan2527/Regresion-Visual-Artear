@@ -1,0 +1,53 @@
+# .github/workflows/selenium_test.yml
+
+name: Regresión Visual TN # Nombre que verás en la pestaña "Actions"
+on:
+  # Define cuándo se ejecutará este flujo de trabajo
+  push:
+    # Se activa cada vez que subes cambios (push) a la rama 'main'
+    branches: [ main ] 
+  
+  # Permite ejecutar el workflow manualmente desde la interfaz de GitHub
+  workflow_dispatch: 
+
+jobs:
+  build:
+    # El runner de GitHub usará una máquina con Ubuntu (Linux)
+    runs-on: ubuntu-latest
+    
+    steps:
+    # Paso 1: Descarga el código
+    - name: Checkout Repository Code
+      uses: actions/checkout@v4
+
+    # Paso 2: Configura el entorno Python 
+    - name: Set up Python 3.10
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.10'
+
+    # Paso 3: Instala las librerías necesarias
+    - name: Install Python Dependencies
+      run: |
+        python -m pip install --upgrade pip
+        # Instala las dependencias listadas en tu archivo requirements.txt
+        pip install -r requirements.txt 
+
+    # Paso 4: Instala el navegador Google Chrome
+    # Esto es CRUCIAL, ya que el runner no viene con Chrome instalado por defecto
+    - name: Install Google Chrome Browser
+      uses: browser-actions/setup-chrome@latest
+      
+    # Paso 5: Ejecuta tu script principal
+    - name: Run Visual Regression Script
+      # Comando para ejecutar tu archivo Python
+      run: python regre_visual_tn_desk_prod.py
+      
+    # Paso 6: Sube los resultados como un "Artefacto"
+    # Esto te permite descargar los reportes HTML/Imágenes generados por el script
+    - name: Upload Report Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: Visual-Regression-Report-${{ github.sha }}
+        # Ruta a la carpeta de salida definida en tu script (output_dir)
+        path: Reportes HTML - TN - DESKTOP - PROD/
