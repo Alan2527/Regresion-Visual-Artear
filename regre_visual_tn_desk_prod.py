@@ -115,16 +115,16 @@ def forzar_carga_contenido(driver):
     """
     # 1. Scroll al final
     driver.execute_script("window.scrollTo(0, document.body.scrollHeight);") 
-    time.sleep(3) # CORREGIDO: Antes 8s
+    time.sleep(10) # 🛠️ Aumentado de 8 a 10s para estabilidad
     # 2. Scroll al inicio
     driver.execute_script("window.scrollTo(0, 0);") 
-    time.sleep(3) # CORREGIDO: Antes 8s
+    time.sleep(10) # 🛠️ Aumentado de 8 a 10s para estabilidad
     # 3. Scroll a la mitad para forzar carga central
     driver.execute_script("window.scrollTo(0, document.body.scrollHeight / 2);") 
-    time.sleep(3) # CORREGIDO: Antes 8s
+    time.sleep(10) # 🛠️ Aumentado de 8 a 10s para estabilidad
     # 4. Volver al inicio antes de medir
     driver.execute_script("window.scrollTo(0, 0);") 
-    time.sleep(3) # CORREGIDO: Antes 12s
+    time.sleep(15) # 🛠️ Aumentado de 12 a 15s para estabilidad
 
 # ---
 ## Función Clave: Extracción de Datos del DOM (4 Puntos: X, Y, W, H)
@@ -164,10 +164,10 @@ def obtener_estructura_dom(driver):
             var el = elements[i];
             var rect = el.getBoundingClientRect();
             
-            # Filtra elementos muy pequeños o invisibles
+            // Filtra elementos muy pequeños o invisibles
             if (rect.height < 5 || rect.width < 5 || rect.height === 0 || rect.width === 0) continue;
             
-            # FILTRAR 'fusion-app', 'common-layout', 'col-megalateral', 'col-content', 'default-article-color'
+            // FILTRAR 'fusion-app', 'common-layout', 'col-megalateral', 'col-content', 'default-article-color'
             if (el.classList && (
     el.classList.contains('fusion-app') ||
     el.classList.contains('common-layout') ||
@@ -179,14 +179,14 @@ def obtener_estructura_dom(driver):
 
             data.push({
                 selector: getCssSelector(el),
-                # --- Extracción de ID y Clase ---
+                // --- Extracción de ID y Clase ---
                 id_attr: el.id, 
                 class_attr: el.className, 
-                # ---------------------------------
-                y: window.pageYOffset + rect.top,       # Posición Vertical ABSOLUTA
-                height: rect.height,                     # Altura (Dimensión Vertical)
-                x: window.pageXOffset + rect.left,       # Posición Horizontal ABSOLUTA
-                width: rect.width                      # Ancho (Dimensión Horizontal)
+                // ---------------------------------
+                y: window.pageYOffset + rect.top,       // Posición Vertical ABSOLUTA
+                height: rect.height,                     // Altura (Dimensión Vertical)
+                x: window.pageXOffset + rect.left,       // Posición Horizontal ABSOLUTA
+                width: rect.width                      // Ancho (Dimensión Horizontal)
             });
         }
         return data;
@@ -203,7 +203,7 @@ def obtener_estructura_dom(driver):
         # === USO DE LA LIMPIZA ROBUSTA ===
         limpiar_entorno_robusto(driver)
         # TIEMPO DE ESPERA ADICIONAL AÑADIDO
-        time.sleep(3) # CORREGIDO: Antes 10s
+        time.sleep(15) # 🛠️ Aumentado de 10 a 15s para mayor estabilidad
         limpiar_entorno_robusto(driver) 
         forzar_carga_contenido(driver) 
         # =================================
@@ -431,6 +431,9 @@ def ejecutar_selenium_para_estructura(url):
     options.add_experimental_option('excludeSwitches', ['enable-logging']) 
     options.add_argument("--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36")
     
+    # ⭐️ SOLUCIÓN B: Añadir flag de estabilidad para entornos headless ⭐️
+    options.add_argument("--disable-features=site-per-process") 
+    
     driver = None
     data = []
     png = None
@@ -439,8 +442,7 @@ def ejecutar_selenium_para_estructura(url):
         os.environ['WDM_LOG_LEVEL'] = '0' 
         service = Service(ChromeDriverManager().install())
         driver = webdriver.Chrome(service=service, options=options)
-        # CORREGIDO: Aumentado de 60s a 180s para evitar el "Read timed out"
-        driver.set_page_load_timeout(180) 
+        driver.set_page_load_timeout(60) 
         driver.get(url)
         
         data, png = obtener_estructura_dom(driver)
@@ -461,12 +463,12 @@ if __name__ == "__main__":
     
     # 1. MAPEO DE URLS A TESTEAR 
     BASE_URLS_MAP = {
-          #"https://tn.com.ar/": "Homepage",
-          #"https://tn.com.ar/ultimas-noticias/": "Listado",
-          "https://tn.com.ar/videos/": "Videos",
+          "https://tn.com.ar/": "Homepage",
+          "https://tn.com.ar/ultimas-noticias/": "Listado",
+          #"https://tn.com.ar/videos/": "Videos",
           #"https://tn.com.ar/envivo/24hs/": "Vivo",
           #"https://tn.com.ar/clima/": "Clima",
-          #"https://tn.com.ar/economia/divisas/dolar-oficial-hoy/": "Divisas",
+          "https://tn.com.ar/economia/divisas/dolar-oficial-hoy/": "Divisas",
           #"https://tn.com.ar/podcasts/2025/05/14/soy-adoptada-una-identidad-dicha-con-orgullo/": "Podcast",
           #"https://tn.com.ar/deportes/estadisticas/": "Estadisticas",
           #"https://tn.com.ar/quinielas-loterias/": "Quinielas",
@@ -486,7 +488,7 @@ if __name__ == "__main__":
           # Longform s/fondo
           #"https://tn.com.ar/sociedad/2023/02/12/mapa-de-los-incendios-en-la-argentina-por-que-cada-verano-se-recrudece-el-fuego/": "Longform s/fondo",
           # Liveblogging
-          #"https://tn.com.ar/deportes/futbol/2025/11/07/franco-colapinto-corre-la-primera-practica-y-la-clasificacion-sprint-del-gp-de-brasil/": "Liveblogging",
+          "https://tn.com.ar/deportes/futbol/2025/11/07/franco-colapinto-corre-la-primera-practica-y-la-clasificacion-sprint-del-gp-de-brasil/": "Liveblogging",
           # Newsletter
           # No hay ninguno a la fecha 13/11/2025
           # Historia
@@ -993,4 +995,3 @@ if __name__ == "__main__":
     print(f"✅ Proceso de regresión visual completado.")
     print(f"📄 Reporte generado en: {html_file}")
     print(f"==================================================================================")
-
