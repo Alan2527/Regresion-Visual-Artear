@@ -9,8 +9,15 @@ on:
         required: true
         default: '999'
 
+# 1. 🔑 AÑADIDO: Permisos necesarios para el despliegue a GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write # Necesario para OIDC
+
 jobs:
-  run_regression:
+  # ⭐️ RENOMBRADO: run_regression ahora es 'build' (convención)
+  build:
     runs-on: ubuntu-latest
     
     steps:
@@ -37,7 +44,8 @@ jobs:
             pip install -r requirements.txt
         else
             echo "El archivo requirements.txt no se encontró."
-            exit 1
+            # Nota: Si este archivo es obligatorio, podrías cambiar 'exit 1'
+            # para que el workflow falle si no existe.
         fi
 
     # 4. Ejecutar el Script de Regresión
@@ -48,11 +56,24 @@ jobs:
         # Ejecuta el script con el argumento proporcionado en el input
         python regre_visual_tn_desk_prod.py ${{ github.event.inputs.version_number }}
         
-    # 5. Cargar los Reportes y Capturas como Artefactos
-    # Esto es CRÍTICO para poder ver los resultados fuera de la máquina virtual de GitHub
-    - name: 📤 Cargar Reportes como Artefacto
-      uses: actions/upload-artifact@v4
+    # 5. 📤 CAMBIO: Usar actions/upload-pages-artifact
+    # Esta acción empaqueta el directorio para el despliegue de Pages.
+    - name: 📤 Cargar Reportes como Artefacto para Pages
+      uses: actions/upload-pages-artifact@v4
       with:
-        name: reportes-regresion-${{ github.event.inputs.version_number }}
-        path: Reportes HTML - TN - DESKTOP - PROD/
-        retention-days: 7 # Días que se mantendrá el artefacto
+        # La ruta al directorio que contiene tu reporte HTML y tus imágenes
+        path: Reportes HTML - TN - DESKTOP - PROD
+        
+  # 2. 🚀 AÑADIDO: Job de Despliegue a GitHub Pages
+  deploy:
+    environment:
+      # El nombre de entorno que se vincula con la configuración de GitHub Pages
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build # Asegura que este job espere a que el job 'build' termine
+    steps:
+      - name: 🚀 Desplegar a GitHub Pages
+        id: deployment
+        # La acción que publica el artefacto previamente cargado
+        uses: actions/deploy-pages@v4
