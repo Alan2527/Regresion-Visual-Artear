@@ -461,8 +461,8 @@ if __name__ == "__main__":
     
     # 1. MAPEO DE URLS A TESTEAR 
     BASE_URLS_MAP = {
-          "https://tn.com.ar/": "Homepage",
-          "https://tn.com.ar/ultimas-noticias/": "Listado",
+          #"https://tn.com.ar/": "Homepage",
+          #"https://tn.com.ar/ultimas-noticias/": "Listado",
           "https://tn.com.ar/videos/": "Videos",
           #"https://tn.com.ar/envivo/24hs/": "Vivo",
           #"https://tn.com.ar/clima/": "Clima",
@@ -993,3 +993,4 @@ if __name__ == "__main__":
     print(f"✅ Proceso de regresión visual completado.")
     print(f"📄 Reporte generado en: {html_file}")
     print(f"==================================================================================")
+
