@@ -463,8 +463,8 @@ if __name__ == "__main__":
     
     # 1. MAPEO DE URLS A TESTEAR 
     BASE_URLS_MAP = {
-          "https://tn.com.ar/": "Homepage",
-          "https://tn.com.ar/ultimas-noticias/": "Listado",
+          #"https://tn.com.ar/": "Homepage",
+          #"https://tn.com.ar/ultimas-noticias/": "Listado",
           #"https://tn.com.ar/videos/": "Videos",
           #"https://tn.com.ar/envivo/24hs/": "Vivo",
           #"https://tn.com.ar/clima/": "Clima",
@@ -488,7 +488,7 @@ if __name__ == "__main__":
           # Longform s/fondo
           #"https://tn.com.ar/sociedad/2023/02/12/mapa-de-los-incendios-en-la-argentina-por-que-cada-verano-se-recrudece-el-fuego/": "Longform s/fondo",
           # Liveblogging
-          "https://tn.com.ar/deportes/futbol/2025/11/07/franco-colapinto-corre-la-primera-practica-y-la-clasificacion-sprint-del-gp-de-brasil/": "Liveblogging",
+          #"https://tn.com.ar/deportes/futbol/2025/11/07/franco-colapinto-corre-la-primera-practica-y-la-clasificacion-sprint-del-gp-de-brasil/": "Liveblogging",
           # Newsletter
           # No hay ninguno a la fecha 13/11/2025
           # Historia
@@ -995,3 +995,4 @@ if __name__ == "__main__":
     print(f"✅ Proceso de regresión visual completado.")
     print(f"📄 Reporte generado en: {html_file}")
     print(f"==================================================================================")
+
